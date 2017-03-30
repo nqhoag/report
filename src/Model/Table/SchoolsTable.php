@@ -33,7 +33,7 @@ class SchoolsTable extends Table
         parent::initialize($config);
 
         $this->setTable('schools');
-        $this->setDisplayField('id');
+        $this->setDisplayField('ten');
         $this->setPrimaryKey('id');
 
         $this->hasMany('Reports', [

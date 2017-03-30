@@ -16,15 +16,15 @@
     <table cellpadding="0" cellspacing="0">
         <thead>
             <tr>
-                <th scope="col"><?= $this->Paginator->sort('id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('ten') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('diachi') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('caphoc') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('loaitruong') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('namthanhlap') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('email') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('sodienthoai') ?></th>
-                <th scope="col" class="actions"><?= __('Actions') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('id', 'Mã trường') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('ten', 'Tên trường') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('diachi', 'Địa chỉ') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('caphoc', 'Cấp học') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('loaitruong', 'Loại trường') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('namthanhlap', 'Năm thành lập') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('email', 'Địa chỉ email') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('sodienthoai', 'Số điện thoại') ?></th>
+                <th scope="col" class="actions"><?= __('') ?></th>
             </tr>
         </thead>
         <tbody>

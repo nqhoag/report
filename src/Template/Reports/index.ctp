@@ -18,19 +18,19 @@
             <tr>
                 <th scope="col"><?= $this->Paginator->sort('id', 'Mã') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('school_id', 'Mã trường') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('phienbanbaocao') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('solop') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('hocsinhnam') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('hocsinhnu') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('dansotrongdotuoi') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('hocsinhmienhocphi') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('sotienmien') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('hocsinhgiamhocphi') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('sotiengiam') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('hocsinhnhanhocbong') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('sotiennhanhocbong') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('phienbanbaocao', "Phiên bản báo cáo") ?></th>
+                <th scope="col"><?= $this->Paginator->sort('solop', 'Số lớp') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('hocsinhnam', 'Số học sinh nam') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('hocsinhnu', 'Số học sinh nữ') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('dansotrongdotuoi', 'Số HS trong độ tuổi') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('hocsinhmienhocphi', 'Số học sinh miễn học phí') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('sotienmien', 'Số tiền đã miễn học phí') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('hocsinhgiamhocphi', 'Số học sinh giảm học phí') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('sotiengiam', 'Số tiền đã giảm học phí') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('hocsinhnhanhocbong', 'Số học sinh nhận học bổng') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('sotiennhanhocbong', 'Số tiền cho học bổng') ?></th>
                 
-                <th scope="col" class="actions"><?= __('Actions') ?></th>
+                <th scope="col" class="actions"><?= __('') ?></th>
             </tr>
         </thead>
         <tbody>
@@ -66,6 +66,6 @@
             <?= $this->Paginator->next(__('next') . ' >') ?>
             <?= $this->Paginator->last(__('last') . ' >>') ?>
         </ul>
-        <p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
+        <p><?= $this->Paginator->counter(['format' => __('Trang số {{page}} trong {{pages}} trang, hiển thị {{current}} dòng trong số {{count}} dòng.')]) ?></p>
     </div>
 </div>

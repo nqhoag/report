@@ -18,35 +18,35 @@
     <h3><?= h($school->id) ?></h3>
     <table class="vertical-table">
         <tr>
-            <th scope="row"><?= __('Ten') ?></th>
-            <td><?= h($school->ten) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Diachi') ?></th>
-            <td><?= h($school->diachi) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Loaitruong') ?></th>
-            <td><?= h($school->loaitruong) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Email') ?></th>
-            <td><?= h($school->email) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Sodienthoai') ?></th>
-            <td><?= h($school->sodienthoai) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Id') ?></th>
+            <th scope="row"><?= __('Mã trường') ?></th>
             <td><?= $this->Number->format($school->id) ?></td>
         </tr>
         <tr>
-            <th scope="row"><?= __('Caphoc') ?></th>
+            <th scope="row"><?= __('Tên trường') ?></th>
+            <td><?= h($school->ten) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Địa chỉ') ?></th>
+            <td><?= h($school->diachi) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Loại trường') ?></th>
+            <td><?= h($school->loaitruong) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Địa chỉ email') ?></th>
+            <td><?= h($school->email) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Số điện thoại') ?></th>
+            <td><?= h($school->sodienthoai) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Cấp học') ?></th>
             <td><?= $this->Number->format($school->caphoc) ?></td>
         </tr>
         <tr>
-            <th scope="row"><?= __('Namthanhlap') ?></th>
+            <th scope="row"><?= __('Năm thành lập') ?></th>
             <td><?= $this->Number->format($school->namthanhlap) ?></td>
         </tr>
     </table>

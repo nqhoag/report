@@ -62,7 +62,9 @@ class ReportsController extends AppController
             $this->Flash->error(__('The report could not be saved. Please, try again.'));
         }
         $schools = $this->Reports->Schools->find('list', ['limit' => 200]);
+        
         $this->set(compact('report', 'schools'));
+        $this->set('schools', $schools);
         $this->set('_serialize', ['report']);
     }
 
