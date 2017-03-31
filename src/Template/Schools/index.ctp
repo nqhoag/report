@@ -16,15 +16,15 @@
     <table cellpadding="0" cellspacing="0">
         <thead>
             <tr>
-                <th scope="col"><?= $this->Paginator->sort('id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('ten') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('diachi') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('caphoc') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('loaitruong') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('namthanhlap') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('email') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('sodienthoai') ?></th>
-                <th scope="col" class="actions"><?= __('Actions') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('id', 'Mã trường') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('ten', 'Tên trường') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('diachi', 'Địa chỉ') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('caphoc_id', 'Cấp học') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('loaitruong_id', 'Loại trường') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('namthanhlap', 'Năm thành lập') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('email', 'Địa chỉ email') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('sodienthoai', 'Số điện thoại') ?></th>
+                <th scope="col" class="actions"><?= __('') ?></th>
             </tr>
         </thead>
         <tbody>
@@ -33,8 +33,8 @@
                 <td><?= $this->Number->format($school->id) ?></td>
                 <td><?= h($school->ten) ?></td>
                 <td><?= h($school->diachi) ?></td>
-                <td><?= $this->Number->format($school->caphoc) ?></td>
-                <td><?= h($school->loaitruong) ?></td>
+                <td><?= h($school->caphoc->caphoc) ?></td>
+                <td><?= h($school->loaitruong->loaitruong) ?></td>
                 <td><?= $this->Number->format($school->namthanhlap) ?></td>
                 <td><?= h($school->email) ?></td>
                 <td><?= h($school->sodienthoai) ?></td>

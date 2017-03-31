@@ -18,8 +18,12 @@ class SchoolsController extends AppController
      */
     public function index()
     {
+       $this->paginate = [
+            'contain' => ['Caphocs', 'Loaitruongs']
+        ];
         $schools = $this->paginate($this->Schools);
-
+        
+        
         $this->set(compact('schools'));
         $this->set('_serialize', ['schools']);
     }
@@ -34,10 +38,10 @@ class SchoolsController extends AppController
     public function view($id = null)
     {
         $school = $this->Schools->get($id, [
-            'contain' => ['Reports']
+            'contain' => ['Reports', 'Caphocs', 'Loaitruongs']
         ]);
-
-        $this->set('school', $school);
+        
+        $this->set(compact('school'));
         $this->set('_serialize', ['school']);
     }
 
@@ -58,15 +62,11 @@ class SchoolsController extends AppController
             }
             $this->Flash->error(__('The school could not be saved. Please, try again.'));
         }
-        $this->set(compact('school'));
-        $this->set('_serialize', ['school']);
-        
+//        $this->set(compact('school'));
         $caphocs = $this->Schools->Caphocs->find('list', ['limit' => 200]);
-        
         $this->set(compact('schools', 'caphocs'));
         $loaitruongs = $this->Schools->Loaitruongs->find('list', ['limit' => 200]);
         $this->set(compact('schools', 'loaitruongs'));
-//        $this->set('caphocs', $caphocs);
         $this->set('_serialize', ['school']);
     }
 
@@ -91,7 +91,11 @@ class SchoolsController extends AppController
             }
             $this->Flash->error(__('The school could not be saved. Please, try again.'));
         }
-        $this->set(compact('school'));
+//        $this->set(compact('school'));
+        $caphocs = $this->Schools->Caphocs->find('list', ['limit' => 200]);
+        $this->set(compact('school', 'caphocs'));
+        $loaitruongs = $this->Schools->Loaitruongs->find('list', ['limit' => 200]);
+        $this->set(compact('school', 'loaitruongs'));
         $this->set('_serialize', ['school']);
     }
 
