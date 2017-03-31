@@ -16,13 +16,13 @@
     <fieldset>
         <legend><?= __('Add School') ?></legend>
         <?php
-            echo $this->Form->control('ten', [ 'label' => 'Tên trường']);
-            echo $this->Form->control('diachi', [ 'label' => 'Địa chỉ']);
-            echo $this->Form->control('caphoc', [ 'label' => 'cấp học']);
-            echo $this->Form->control('loaitruong', [ 'label' => 'Loại trường']);
-            echo $this->Form->control('namthanhlap', [ 'label' => 'Năm thành lập']);
-            echo $this->Form->control('email', [ 'label' => 'Địa chỉ email']);
-            echo $this->Form->control('sodienthoai', [ 'label' => 'Số điện thoại']);
+            echo $this->Form->control('ten');
+            echo $this->Form->control('diachi');
+            echo $this->Form->control('caphoc_id');
+            echo $this->Form->control('loaitruong_id');
+            echo $this->Form->control('namthanhlap');
+            echo $this->Form->control('email');
+            echo $this->Form->control('sodienthoai');
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

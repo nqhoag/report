@@ -4,20 +4,14 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * School Entity
+ * Caphoc Entity
  *
  * @property int $id
- * @property string $ten
- * @property string $diachi
- * @property int $caphoc_id
- * @property int $loaitruong_id
- * @property int $namthanhlap
- * @property string $email
- * @property string $sodienthoai
+ * @property string $caphoc
  *
- * @property \App\Model\Entity\Report[] $reports
+ * @property \App\Model\Entity\School[] $schools
  */
-class School extends Entity
+class Caphoc extends Entity
 {
 
     /**

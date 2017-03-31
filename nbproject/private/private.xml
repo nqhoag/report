@@ -3,12 +3,21 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group name="Group 20170208-04:50:04">
-            <file>file:/Applications/XAMPP/xamppfiles/htdocs/app-master/src/Model/Table/ReportDetailTable.php</file>
-            <file>file:/Applications/XAMPP/xamppfiles/htdocs/app-master/src/Model/Table/ReportTable.php</file>
-            <file>file:/Applications/XAMPP/xamppfiles/htdocs/app-master/src/Template/Email/text/default.ctp</file>
-            <file>file:/Applications/XAMPP/xamppfiles/htdocs/app-master/src/Controller/DemoController.php</file>
-            <file>file:/Applications/XAMPP/xamppfiles/htdocs/app-master/src/Model/Entity/ReportDetail.php</file>
-            <file>file:/Applications/XAMPP/xamppfiles/htdocs/app-master/src/Model/Entity/Report.php</file>
+            <file>file:/Applications/XAMPP/xamppfiles/htdocs/report/src/Model/Table/SchoolsTable.php</file>
+            <file>file:/Applications/XAMPP/xamppfiles/htdocs/report/src/Template/Reports/view.ctp</file>
+            <file>file:/Applications/XAMPP/xamppfiles/htdocs/report/src/Template/Schools/edit.ctp</file>
+            <file>file:/Applications/XAMPP/xamppfiles/htdocs/report/src/Controller/ReportsController.php</file>
+            <file>file:/Applications/XAMPP/xamppfiles/htdocs/report/webroot/js/common.js</file>
+            <file>file:/Applications/XAMPP/xamppfiles/htdocs/report/config/app.php</file>
+            <file>file:/Applications/XAMPP/xamppfiles/htdocs/report/src/Common/Common.php</file>
+            <file>file:/Applications/XAMPP/xamppfiles/htdocs/report/src/Template/Reports/add.ctp</file>
+            <file>file:/Applications/XAMPP/xamppfiles/htdocs/report/src/Controller/SchoolsController.php</file>
+            <file>file:/Applications/XAMPP/xamppfiles/htdocs/report/src/Template/Schools/index.ctp</file>
+            <file>file:/Applications/XAMPP/xamppfiles/htdocs/report/src/Template/Schools/view.ctp</file>
+            <file>file:/Applications/XAMPP/xamppfiles/htdocs/report/src/Template/Reports/edit.ctp</file>
+            <file>file:/Applications/XAMPP/xamppfiles/htdocs/report/src/Template/Layout/default.ctp</file>
+            <file>file:/Applications/XAMPP/xamppfiles/htdocs/report/src/Template/Schools/add.ctp</file>
+            <file>file:/Applications/XAMPP/xamppfiles/htdocs/report/src/Template/Reports/index.ctp</file>
         </group>
     </open-files>
 </project-private>

@@ -9,6 +9,8 @@ use Cake\Validation\Validator;
 /**
  * Schools Model
  *
+ * @property \Cake\ORM\Association\BelongsTo $Caphocs
+ * @property \Cake\ORM\Association\BelongsTo $Loaitruongs
  * @property \Cake\ORM\Association\HasMany $Reports
  *
  * @method \App\Model\Entity\School get($primaryKey, $options = [])
@@ -36,6 +38,14 @@ class SchoolsTable extends Table
         $this->setDisplayField('ten');
         $this->setPrimaryKey('id');
 
+        $this->belongsTo('Caphocs', [
+            'foreignKey' => 'caphoc_id',
+            'joinType' => 'INNER'
+        ]);
+        $this->belongsTo('Loaitruongs', [
+            'foreignKey' => 'loaitruong_id',
+            'joinType' => 'INNER'
+        ]);
         $this->hasMany('Reports', [
             'foreignKey' => 'school_id'
         ]);
@@ -60,15 +70,6 @@ class SchoolsTable extends Table
         $validator
             ->requirePresence('diachi', 'create')
             ->notEmpty('diachi');
-
-        $validator
-            ->integer('caphoc')
-            ->requirePresence('caphoc', 'create')
-            ->notEmpty('caphoc');
-
-        $validator
-            ->requirePresence('loaitruong', 'create')
-            ->notEmpty('loaitruong');
 
         $validator
             ->integer('namthanhlap')
@@ -97,6 +98,8 @@ class SchoolsTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->isUnique(['email']));
+        $rules->add($rules->existsIn(['caphoc_id'], 'Caphocs'));
+        $rules->add($rules->existsIn(['loaitruong_id'], 'Loaitruongs'));
 
         return $rules;
     }
