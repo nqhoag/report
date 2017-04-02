@@ -79,11 +79,7 @@
     
     <div class="related">
         <h4><?= __('Related Lops') ?></h4>
-        <?= $this->Html->link(
-            __('Tạo khối lớp'),
-            ['controller' => 'Lops', 'action' => 'add', $school->id ],
-            ['class' => 'button']
-        );  ?>
+
         <?php if (!empty($lops)): ?>
         <table cellpadding="0" cellspacing="0">
             <tr>
@@ -91,7 +87,6 @@
                 <th scope="col"><?= __('Khối lớp') ?></th>
                 <th scope="col"><?= __('Số lớp') ?></th>
                 <th scope="col"><?= __('Số học sinh') ?></th>
-                <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
             <?php foreach ($lops as $lop): ?>
             <tr>
@@ -99,9 +94,6 @@
                 <td><?= h($lop->khois->tenkhoi) ?></td>
                 <td><?= h($lop->solop) ?></td>
                 <td><?= h($lop->sohocsinh) ?></td>
-                <td>
-                    <?= $this->Html->link(__('Edit'), ['controller' => 'Lops', 'action' => 'edit', $lop->id]) ?>
-                </td>
             </tr>
             <?php endforeach; ?>
         </table>
