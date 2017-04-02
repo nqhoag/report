@@ -16,6 +16,7 @@
 </nav>
 <div class="schools view large-9 medium-8 columns content">
     <h3><?= h($school->id) ?></h3>
+    <li><?= $this->Html->button(__('Tạo lớp'), ['action' => 'add', $school->id ]) ?></li>
     <table class="vertical-table">
         <tr>
             <th scope="row"><?= __('Mã trường') ?></th>

@@ -56,6 +56,7 @@ class SchoolsTable extends Table
      *
      * @param \Cake\Validation\Validator $validator Validator instance.
      * @return \Cake\Validation\Validator
+     * link ref: https://book.cakephp.org/3.0/en/orm/validation.html
      */
     public function validationDefault(Validator $validator)
     {
@@ -79,7 +80,8 @@ class SchoolsTable extends Table
         $validator
             ->email('email')
             ->requirePresence('email', 'create')
-            ->notEmpty('email');
+            ->notEmpty('email')
+            ->add('email', 'valid-email', ['rule' => 'email']);
 
         $validator
             ->requirePresence('sodienthoai', 'create')

@@ -19,5 +19,10 @@
             <file>file:/Applications/XAMPP/xamppfiles/htdocs/report/src/Template/Schools/add.ctp</file>
             <file>file:/Applications/XAMPP/xamppfiles/htdocs/report/src/Template/Reports/index.ctp</file>
         </group>
+        <group>
+            <file>file:/C:/xampp/htdocs/report/src/Model/Table/SchoolsTable.php</file>
+            <file>file:/C:/xampp/htdocs/report/config/app.php</file>
+            <file>file:/C:/xampp/htdocs/report/src/Model/Table/ReportsTable.php</file>
+        </group>
     </open-files>
 </project-private>
