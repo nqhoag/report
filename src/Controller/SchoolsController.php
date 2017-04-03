@@ -111,9 +111,9 @@ class SchoolsController extends AppController
         $this->request->allowMethod(['post', 'delete']);
         $school = $this->Schools->get($id);
         if ($this->Schools->delete($school)) {
-            $this->Flash->success(__('The school has been deleted.'));
+            $this->Flash->success(__('Đã xoá trường thành công.'));
         } else {
-            $this->Flash->error(__('The school could not be deleted. Please, try again.'));
+            $this->Flash->error(__('Không thể xoá trường này.'));
         }
 
         return $this->redirect(['action' => 'index']);

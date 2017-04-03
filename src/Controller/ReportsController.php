@@ -26,6 +26,11 @@ class ReportsController extends AppController
         $this->set(compact('reports'));
         $this->set('_serialize', ['reports']);
     }
+    
+    public function import()
+    {
+        
+    }
 
     /**
      * View method

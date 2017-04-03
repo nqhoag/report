@@ -179,7 +179,7 @@ class ReportsTable extends Table
             ->allowEmpty('ghichudtlsvh');
 
         $validator
-            ->integer('cointernet')
+            ->boolean('cointernet')
             ->requirePresence('cointernet', 'create')
             ->notEmpty('cointernet');
 

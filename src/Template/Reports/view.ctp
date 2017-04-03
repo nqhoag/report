@@ -120,9 +120,9 @@
         
         <tr>
             <th scope="row"><?= __('có nhận chăm sóc di tích lịch sử, văn hóa tại địa phương ?') ?></th>
-            <td><?= $report->conhanchamsocdtlsvh ? __('Yes') : __('No'); ?></td>
+            <td><?= $report->conhanchamsocdtlsvh ? __('Có') : __('Không'); ?></td>
         </tr>
-        
+        <?php if($report->conhanchamsocdtlsvh){ ?>
         <tr>
             <th scope="row"><?= __('Tên di tích lịch sử, văn hóa tại địa phương được trường nhận chăm sóc') ?></th>
             <td><?= h($report->tendtlsvh) ?></td>
@@ -135,12 +135,12 @@
             <th scope="row"><?= __('Ghi chú di tích lịch sử, văn hóa được đơn vị nhận chăm sóc') ?></th>
             <td><?= h($report->ghichudtlsvh) ?></td>
         </tr>
-        
+        <?php } ?>
         <tr>
             <th scope="row"><?= __('Có internet') ?></th>
-            <td><?= $this->Number->format($report->cointernet) ?></td>
+            <td><?= $report->cointernet ? __('Có') : __('Không'); ?></td>
         </tr>
-        
+        <?php if($report->cointernet){ ?>
         <tr>
             <th scope="row"><?= __('Nhà cung cấp mạng') ?></th>
             <td><?= h($report->nhamang) ?></td>
@@ -149,6 +149,7 @@
             <th scope="row"><?= __('Công nghệ') ?></th>
             <td><?= h($report->congnghe) ?></td>
         </tr>
+        <?php } ?>
         
         
         
