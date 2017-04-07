@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controller;
+
 use App\Logic\TinhtrangsuckhoeLogic;
 use App\Controller\AppController;
 
@@ -59,11 +60,16 @@ class ReportsController extends AppController {
                         }
                         //Get worksheet dimensions
 
-                        $this->loadModel("Reports");
+                        
 
                         $report = $this->Reports->get($report_id, [
                             'contain' => ['Schools']
                         ]);
+                        $this->validateAllSheet($objPHPExcel, $report->school->caphoc_id);
+//                      $setting = $this->Settingvalids->getSetting($report->school->caphoc_id);
+//                        var_dump($setting);
+                        exit;
+
                         $this->SaveMamNon($objPHPExcel, $report);
                     } else {
                         $this->Flash->error(__('Phải nhập file EXCEL.'));
@@ -105,7 +111,61 @@ class ReportsController extends AppController {
         }
     }
 
- 
+    private function saveAllSheet($objPHPExcel, $caphoc_id) {
+        $this->loadModel("Settingvalids");
+        $valid_return = true;
+        $i = 0;
+        foreach ($objPHPExcel->getWorksheetIterator() as $worksheet) {
+            $settings = $this->Settingvalids->getSetting($caphoc_id, $i);
+            if(!empty($settings)){
+                foreach ($settings as $setting){
+                    $value = $worksheet->getCell($setting["cell"])->getValue();
+                    $table = TableRegistry::get($setting['table_mapping']);
+                    
+                    
+                }
+            }
+            $i++;
+        }
+    }
+
+    private function validateAllSheet($objPHPExcel, $caphoc_id) {
+        $this->loadModel("Settingvalids");
+        $valid_return = true;
+        $i = 0;
+        foreach ($objPHPExcel->getWorksheetIterator() as $worksheet) {
+            $settings = $this->Settingvalids->getSetting($caphoc_id, $i);
+            if(!empty($settings)){
+                foreach ($settings as $setting){
+                    $value = $worksheet->getCell($setting["cell"])->getValue();
+                    $valid  = explode("|",$setting["validate"]);
+
+                    switch ($valid[0]){
+                        case "integer" :
+                            if(!is_int(intval($value))){
+                                $error = __("Cell {0} trong sheet '{1}' phải là 1 số tự nhiên", array($setting["cell"], $i));
+                                $valid_return = false;
+                                
+                            }
+                            if(isset($error)){
+                                echo $error;
+                                $this->Flash->error ($error);
+                            }
+                            break;
+                        case "string":
+                            break;
+                        case "text":
+                            break;
+                        default :
+                            break;
+                    }
+                }
+            }
+            $i++;
+        }
+        return $valid_return;
+    }
+
     /**
      * View method
      *
