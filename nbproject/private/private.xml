@@ -21,8 +21,18 @@
         </group>
         <group>
             <file>file:/C:/xampp/htdocs/report/src/Model/Table/SchoolsTable.php</file>
-            <file>file:/C:/xampp/htdocs/report/config/app.php</file>
+            <file>file:/C:/xampp/htdocs/report/src/Template/Lops/add.ctp</file>
+            <file>file:/C:/xampp/htdocs/report/src/Controller/ReportsController.php</file>
+            <file>file:/C:/xampp/htdocs/report/src/Model/Table/TinhtrangsuckhoesTable.php</file>
+            <file>file:/C:/xampp/htdocs/report/src/Model/Table/SettingvalidsTable.php</file>
+            <file>file:/C:/xampp/htdocs/report/src/Template/Lops/edit.ctp</file>
             <file>file:/C:/xampp/htdocs/report/src/Model/Table/ReportsTable.php</file>
+            <file>file:/C:/xampp/htdocs/report/config/app.php</file>
+            <file>file:/C:/xampp/htdocs/report/src/Model/Table/LopsTable.php</file>
+            <file>file:/C:/xampp/htdocs/report/src/Controller/LopsController.php</file>
+            <file>file:/C:/xampp/htdocs/report/src/Template/Reports/add.ctp</file>
+            <file>file:/C:/xampp/htdocs/report/src/Controller/HomeController.php</file>
+            <file>file:/C:/xampp/htdocs/report/src/Template/Home/index.ctp</file>
         </group>
     </open-files>
 </project-private>

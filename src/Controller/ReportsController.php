@@ -65,7 +65,9 @@ class ReportsController extends AppController {
                         $report = $this->Reports->get($report_id, [
                             'contain' => ['Schools']
                         ]);
-                        $this->validateAllSheet($objPHPExcel, $report->school->caphoc_id);
+                        if($this->validateAllSheet($objPHPExcel, $report->school->caphoc_id)){
+                            $this->saveAllSheet($objPHPExcel, $report);
+                        }
 //                      $setting = $this->Settingvalids->getSetting($report->school->caphoc_id);
 //                        var_dump($setting);
                         exit;
@@ -111,18 +113,26 @@ class ReportsController extends AppController {
         }
     }
 
-    private function saveAllSheet($objPHPExcel, $caphoc_id) {
+    private function saveAllSheet($objPHPExcel, $report) {
         $this->loadModel("Settingvalids");
-        $valid_return = true;
         $i = 0;
         foreach ($objPHPExcel->getWorksheetIterator() as $worksheet) {
-            $settings = $this->Settingvalids->getSetting($caphoc_id, $i);
-            if(!empty($settings)){
-                foreach ($settings as $setting){
-                    $value = $worksheet->getCell($setting["cell"])->getValue();
-                    $table = TableRegistry::get($setting['table_mapping']);
-                    
-                    
+            $settings = $this->Settingvalids->getSetting($report->school->caphoc_id, $i);
+            if(!empty($settings->toArray())){
+                $tables = $settings->select(['mapping_table'])
+                ->distinct(['mapping_table'])->toArray();
+                foreach ($tables as $table){
+//                    $value = $worksheet->getCell($setting["cell"])->getValue();
+//                    $table = TableRegistry::get($setting['table_mapping']);
+                    if(!empty($table["mapping_table"])){
+                    $tableModel = \Cake\ORM\TableRegistry::get($table["mapping_table"]);
+//                    var_dump($table["mapping_table"]);
+                    $index_tbls = $settings->select(['table_index'])
+                            ->distinct(['table_index'])->toArray();
+                    foreach ($index_tbls as $index){
+                        $tableModel->saveAllSheet($this->Settingvalids->getSetting($report->school->caphoc_id, $i), $worksheet, $report, $index["table_index"]);
+                    }
+                    }
                 }
             }
             $i++;
@@ -145,7 +155,22 @@ class ReportsController extends AppController {
                             if(!is_int(intval($value))){
                                 $error = __("Cell {0} trong sheet '{1}' phải là 1 số tự nhiên", array($setting["cell"], $i));
                                 $valid_return = false;
-                                
+                            } else if(count($valid) > 0){
+                                foreach ($valid as $key => $v){
+                                    if($key != 0){
+                                      foreach(explode(":",$v) as $ex){
+                                          if(strtolower($ex[0])== 'max' && intval($ex[1]) < intval($value)){
+                                              $error = __("Cell {0} trong sheet '{1}' phải là nhỏ hơn {2}", array($setting["cell"], $i, $ex[1]));
+                                              $valid_return = false;
+                                          }
+                                          if(strtolower($ex[0])== 'min' && intval($ex[1]) > intval($value)){
+                                              $error = __("Cell {0} trong sheet '{1}' phải là lớn hơn {2}", array($setting["cell"], $i, $ex[1]));
+                                              $valid_return = false;
+                                          }
+                                      }
+                                            
+                                    }
+                                }
                             }
                             if(isset($error)){
                                 echo $error;

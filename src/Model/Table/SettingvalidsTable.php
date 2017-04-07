@@ -123,6 +123,6 @@ class SettingvalidsTable extends Table
     
     
     public function getSetting($caphoc_id, $sheet_index){
-        return $this->find('all')->where(['caphoc_id'=> $caphoc_id, 'type' => SETTING_TYPE_INPUT, 'sheet_index' => $sheet_index])->toArray();
+        return $this->find()->where(['caphoc_id'=> $caphoc_id, 'type' => SETTING_TYPE_INPUT, 'sheet_index' => $sheet_index]);
     }
 }

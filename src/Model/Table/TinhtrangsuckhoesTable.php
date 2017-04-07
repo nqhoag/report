@@ -154,21 +154,24 @@ class TinhtrangsuckhoesTable extends Table {
         $this->save($trsk1);
     }
     
-    
     /**
-     * check Validate
+     * lưu tình trang sức khoẻ của trẻ vào 
      */
-    private function checkValid($objPHPExcel, $school_id = 1) {
-        return true;
+    public function saveAllSheet($settings, $sheet, $report, $index) {
+            $columns = $settings->where(['table_index' => $index])->toArray();
+            $khoi_id = ($index == 0) ? MA_KHOI_MAU_GIAO : MA_KHOI_NHA_TRE;
+            $trsk = $this->find()->where(["report_id" => $report->id, "khoi_id" => $khoi_id])->first();
+            if (!$trsk) {
+                $trsk = $this->newEntity();
+            }
+            $trsk->report_id = $report->id;
+            $trsk->school_id = $report->school_id;
+            $trsk->khoi_id = $khoi_id;
+            foreach ($columns as $column){
+                $trsk[$column["mapping_column"]] = $sheet->getCell($column["cell"])->getValue();
+            }
+            $this->save($trsk);
     }
     
-    private function getValidateArray(){
-        return array(
-            "Tre-PH" => array(
-                CELL_TONG_NHOM_LOP_NHA_TRE => "integer|min:0|max:50000",
-                CELL_TONG_SO_TRE_NHA_TRE => "integer|min:0|max:50000",
-            )
-        );
-    }
 
 }
