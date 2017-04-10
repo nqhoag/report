@@ -155,11 +155,10 @@ class TinhtrangsuckhoesTable extends Table {
     }
     
     /**
-     * lưu tình trang sức khoẻ của trẻ vào 
+     * lưu tình trang sức khoẻ của trẻ vào db
      */
-    public function saveAllSheet($settings, $sheet, $report, $index) {
+    public function saveAllSheet($settings, $sheet, $report, $index, $khoi_id = null) {
             $columns = $settings->where(['table_index' => $index])->toArray();
-            $khoi_id = ($index == 0) ? MA_KHOI_MAU_GIAO : MA_KHOI_NHA_TRE;
             $trsk = $this->find()->where(["report_id" => $report->id, "khoi_id" => $khoi_id])->first();
             if (!$trsk) {
                 $trsk = $this->newEntity();

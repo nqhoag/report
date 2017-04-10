@@ -130,7 +130,12 @@ class ReportsController extends AppController {
                     $index_tbls = $settings->select(['table_index'])
                             ->distinct(['table_index'])->toArray();
                     foreach ($index_tbls as $index){
-                        $tableModel->saveAllSheet($this->Settingvalids->getSetting($report->school->caphoc_id, $i), $worksheet, $report, $index["table_index"]);
+                        $tableModel->saveAllSheet(
+                                $this->Settingvalids->getSetting($report->school->caphoc_id, $i), 
+                                $worksheet, 
+                                $report, 
+                                $index["table_index"], 
+                                isset($index["khoi_id"]) ? $index["khoi_id"] : null);
                     }
                     }
                 }

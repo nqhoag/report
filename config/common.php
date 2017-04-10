@@ -15,6 +15,9 @@ define('MA_KHOI_NHA_TRE', '8');
 define('MA_CAP_HOC_MAM_NON', '1');
 define('MA_CAP_HOC_TIEU_HOC', '2');
 
+define('KIEU_PHONG_PHONG_HOC', '1');
+define('KIEU_PHONG_PHONG_LAM_VIEC', '2');
+
 
 define('SETTING_TYPE_INPUT', '1');
 //mapping nhà trẻ với cell của file excel

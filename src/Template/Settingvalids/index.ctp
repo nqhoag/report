@@ -34,17 +34,17 @@ echo $style;
 </style>
 <script>
     function showorhide(){
-        $( "select" )
+        $( "select.index" )
             .filter(function( index ) {
               return $(this).val() == 1;
-            }).parent().find("input").show();
+            }).parent().find("input,select").show();
     }
     showorhide();
-    $("select").on("change", function (){
+    $("select.index").on("change", function (){
         if($(this).val() == 1)
-            $(this).parent().find("input").show();
+            $(this).parent().find("input, select:not(.index)").show();
         else
-            $(this).parent().find("input").hide();
+            $(this).parent().find("input, select:not(.index)").hide();
         
     })
 </script>

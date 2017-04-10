@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Model\Table;
 
 use Cake\ORM\Query;
@@ -19,8 +20,7 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Settingvalid[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Settingvalid findOrCreate($search, callable $callback = null, $options = [])
  */
-class SettingvalidsTable extends Table
-{
+class SettingvalidsTable extends Table {
 
     /**
      * Initialize method
@@ -28,8 +28,7 @@ class SettingvalidsTable extends Table
      * @param array $config The configuration for the Table.
      * @return void
      */
-    public function initialize(array $config)
-    {
+    public function initialize(array $config) {
         parent::initialize($config);
 
         $this->setTable('settingvalids');
@@ -48,37 +47,36 @@ class SettingvalidsTable extends Table
      * @param \Cake\Validation\Validator $validator Validator instance.
      * @return \Cake\Validation\Validator
      */
-    public function validationDefault(Validator $validator)
-    {
+    public function validationDefault(Validator $validator) {
         $validator
-            ->integer('id')
-            ->allowEmpty('id', 'create');
+                ->integer('id')
+                ->allowEmpty('id', 'create');
 
         $validator
-            ->requirePresence('mapping_table', 'create')
-            ->notEmpty('mapping_table');
+                ->requirePresence('mapping_table', 'create')
+                ->notEmpty('mapping_table');
 
         $validator
-            ->requirePresence('mapping_column', 'create')
-            ->notEmpty('mapping_column');
+                ->requirePresence('mapping_column', 'create')
+                ->notEmpty('mapping_column');
 
         $validator
-            ->integer('type')
-            ->requirePresence('type', 'create')
-            ->notEmpty('type');
+                ->integer('type')
+                ->requirePresence('type', 'create')
+                ->notEmpty('type');
 
         $validator
-            ->integer('sheet_index')
-            ->requirePresence('sheet_index', 'create')
-            ->notEmpty('sheet_index');
+                ->integer('sheet_index')
+                ->requirePresence('sheet_index', 'create')
+                ->notEmpty('sheet_index');
 
         $validator
-            ->requirePresence('cell', 'create')
-            ->notEmpty('cell');
+                ->requirePresence('cell', 'create')
+                ->notEmpty('cell');
 
         $validator
-            ->requirePresence('validate', 'create')
-            ->notEmpty('validate');
+                ->requirePresence('validate', 'create')
+                ->notEmpty('validate');
 
         return $validator;
     }
@@ -90,25 +88,25 @@ class SettingvalidsTable extends Table
      * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
      * @return \Cake\ORM\RulesChecker
      */
-    public function buildRules(RulesChecker $rules)
-    {
+    public function buildRules(RulesChecker $rules) {
         $rules->add($rules->existsIn(['caphoc_id'], 'Caphocs'));
 
         return $rules;
     }
-    
+
     /**
-    
+
      */
-    public function saveSetting($sheets, $caphoc_id)
-    {
-        foreach ($sheets as $sheet_index => $cells){
-            foreach ($cells as $cell_name => $cell){
+    public function saveSetting($sheets, $caphoc_id) {
+        foreach ($sheets as $sheet_index => $cells) {
+            foreach ($cells as $cell_name => $cell) {
                 $setting = $this->find()->where(['cell' => $cell_name, 'sheet_index' => $sheet_index, 'caphoc_id' => $caphoc_id])->first();
-                if(empty($setting)){
+                if (empty($setting)) {
                     $setting = $this->newEntity();
                 }
                 $setting->caphoc_id = $caphoc_id;
+                $setting->khoi_id = $cell["khoi_id"];
+                $setting->table_index = $cell["table_index"];
                 $setting->mapping_table = $cell["mapping_table"];
                 $setting->mapping_column = $cell["mapping_column"];
                 $setting->type = $cell["type"];
@@ -118,11 +116,10 @@ class SettingvalidsTable extends Table
                 $this->save($setting);
             }
         }
-        
     }
-    
-    
-    public function getSetting($caphoc_id, $sheet_index){
-        return $this->find()->where(['caphoc_id'=> $caphoc_id, 'type' => SETTING_TYPE_INPUT, 'sheet_index' => $sheet_index]);
+
+    public function getSetting($caphoc_id, $sheet_index) {
+        return $this->find()->where(['caphoc_id' => $caphoc_id, 'type' => SETTING_TYPE_INPUT, 'sheet_index' => $sheet_index]);
     }
+
 }
