@@ -58,136 +58,7 @@ class ReportsTable extends Table
             ->requirePresence('phienbanbaocao', 'create')
             ->notEmpty('phienbanbaocao');
 
-        $validator
-            ->integer('solop')
-            ->requirePresence('solop', 'create')
-            ->notEmpty('solop');
-
-        $validator
-            ->integer('hocsinhnam')
-            ->requirePresence('hocsinhnam', 'create')
-            ->notEmpty('hocsinhnam');
-
-        $validator
-            ->integer('hocsinhnu')
-            ->requirePresence('hocsinhnu', 'create')
-            ->notEmpty('hocsinhnu');
-
-        $validator
-            ->integer('dansotrongdotuoi')
-            ->requirePresence('dansotrongdotuoi', 'create')
-            ->notEmpty('dansotrongdotuoi');
-
-        $validator
-            ->integer('hocsinhmienhocphi')
-            ->requirePresence('hocsinhmienhocphi', 'create')
-            ->notEmpty('hocsinhmienhocphi');
-
-        $validator
-            ->integer('sotienmien')
-            ->requirePresence('sotienmien', 'create')
-            ->notEmpty('sotienmien');
-
-        $validator
-            ->integer('hocsinhgiamhocphi')
-            ->requirePresence('hocsinhgiamhocphi', 'create')
-            ->notEmpty('hocsinhgiamhocphi');
-
-        $validator
-            ->integer('sotiengiam')
-            ->requirePresence('sotiengiam', 'create')
-            ->notEmpty('sotiengiam');
-
-        $validator
-            ->integer('hocsinhnhanhocbong')
-            ->requirePresence('hocsinhnhanhocbong', 'create')
-            ->notEmpty('hocsinhnhanhocbong');
-
-        $validator
-            ->integer('sotiennhanhocbong')
-            ->requirePresence('sotiennhanhocbong', 'create')
-            ->notEmpty('sotiennhanhocbong');
-
-        $validator
-            ->integer('hocsinhgiam')
-            ->requirePresence('hocsinhgiam', 'create')
-            ->notEmpty('hocsinhgiam');
-
-        $validator
-            ->allowEmpty('lydogiam');
-
-        $validator
-            ->integer('hocsinhbohoc')
-            ->requirePresence('hocsinhbohoc', 'create')
-            ->notEmpty('hocsinhbohoc');
-
-        $validator
-            ->allowEmpty('lydobo');
-
-        $validator
-            ->integer('bohocnu')
-            ->requirePresence('bohocnu', 'create')
-            ->notEmpty('bohocnu');
-
-        $validator
-            ->integer('bohocdantoc')
-            ->requirePresence('bohocdantoc', 'create')
-            ->notEmpty('bohocdantoc');
-
-        $validator
-            ->integer('hocsinhluuban')
-            ->requirePresence('hocsinhluuban', 'create')
-            ->notEmpty('hocsinhluuban');
-
-        $validator
-            ->integer('hocsinhluubannu')
-            ->requirePresence('hocsinhluubannu', 'create')
-            ->notEmpty('hocsinhluubannu');
-
-        $validator
-            ->integer('hocsinhluubandantoc')
-            ->requirePresence('hocsinhluubandantoc', 'create')
-            ->notEmpty('hocsinhluubandantoc');
-
-        $validator
-            ->integer('hsduthitotnghiep')
-            ->requirePresence('hsduthitotnghiep', 'create')
-            ->notEmpty('hsduthitotnghiep');
-
-        $validator
-            ->integer('hstotnghiep')
-            ->requirePresence('hstotnghiep', 'create')
-            ->notEmpty('hstotnghiep');
-
-        $validator
-            ->integer('hstotnghiepkhagioi')
-            ->requirePresence('hstotnghiepkhagioi', 'create')
-            ->notEmpty('hstotnghiepkhagioi');
-
-        $validator
-            ->boolean('conhanchamsocdtlsvh')
-            ->requirePresence('conhanchamsocdtlsvh', 'create')
-            ->notEmpty('conhanchamsocdtlsvh');
-
-        $validator
-            ->allowEmpty('tendtlsvh');
-
-        $validator
-            ->allowEmpty('diachidtlsvh');
-
-        $validator
-            ->allowEmpty('ghichudtlsvh');
-
-        $validator
-            ->boolean('cointernet')
-            ->requirePresence('cointernet', 'create')
-            ->notEmpty('cointernet');
-
-        $validator
-            ->allowEmpty('nhamang');
-
-        $validator
-            ->allowEmpty('congnghe');
+        
 
         return $validator;
     }
@@ -205,4 +76,37 @@ class ReportsTable extends Table
 
         return $rules;
     }
+    
+    /**
+     * 
+     * @param RulesChecker $rules
+     * @return RulesChecker
+     */
+    public function generateReport($school_id, $year)
+    {
+        if(empty($year))
+            return false;
+        $mabaocao = $year . "_" . $school_id . "_";
+        $rp1 = $this->find('all')->where(['school_id' => $school_id, 'phienbanbaocao' => $mabaocao . "001" ])->first();
+        if(empty($rp1)){
+            $rp1 = $this->newEntity();
+        }
+        $rp1->school_id = $school_id;
+        $rp1->tenbaocao = "Báo cáo đầu năm 2017";
+        $rp1->phienbanbaocao = $mabaocao . "001";
+        $this->save($rp1);
+        
+        $rp2 = $this->find('all')->where(['school_id' => $school_id, 'phienbanbaocao' => $mabaocao . "002" ])->first();
+        if(empty($rp2)){
+            $rp2 = $this->newEntity();
+        }
+        $rp2->school_id = $school_id;
+        $rp2->tenbaocao = "Báo cáo cuối năm 2017";
+        $rp2->phienbanbaocao = $mabaocao . "002";
+        $this->save($rp2);
+        
+        return true;
+        
+    }
+      
 }

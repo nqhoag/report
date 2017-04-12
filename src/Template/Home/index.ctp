@@ -52,7 +52,9 @@
         </tr>
     </table>
     <div class="related">
-        <h4><?= __('Related Reports') ?></h4>
+        
+        <h4><?= __('Các báo cáo của trường') ?></h4>
+        <?= $this->Html->link(__('Tạo báo cáo mới'), ['controller' => 'reports', 'action' => 'add', $school->id], ['class' => 'button']) ?> 
         <?php if (!empty($school->reports)): ?>
         <table cellpadding="0" cellspacing="0">
             <tr>

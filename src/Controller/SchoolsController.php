@@ -64,9 +64,9 @@ class SchoolsController extends AppController
         }
 //        $this->set(compact('school'));
         $caphocs = $this->Schools->Caphocs->find('list', ['limit' => 200]);
-        $this->set(compact('schools', 'caphocs'));
+        $this->set(compact('school', 'caphocs'));
         $loaitruongs = $this->Schools->Loaitruongs->find('list', ['limit' => 200]);
-        $this->set(compact('schools', 'loaitruongs'));
+        $this->set(compact('school', 'loaitruongs'));
         $this->set('_serialize', ['school']);
     }
 

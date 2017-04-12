@@ -16,11 +16,10 @@ class HomeController extends AppController
      *
      * @return \Cake\Network\Response|null
      */
-    public function index()
+    public function index($id)
     {
        $this->loadModel('Schools');
        $this->loadModel('Lops');
-       $id= 1;
        $school = $this->Schools->get($id, [
             'contain' => ['Reports', 'Caphocs', 'Loaitruongs']
         ]);

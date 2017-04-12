@@ -218,21 +218,16 @@ class ReportsController extends AppController {
      * @return \Cake\Network\Response|null Redirects on successful add, renders view otherwise.
      */
     public function add($school_id = null) {
-        $this->loadModel('Lops');
         $report = $this->Reports->newEntity();
         if ($this->request->is('post')) {
-            $report = $this->Reports->patchEntity($report, $this->request->getData());
-            if ($this->Reports->save($report)) {
+            if ($this->Reports->generateReport($school_id, $this->request->getData("namhoc"))) {
                 $this->Flash->success(__('The report has been saved.'));
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['controller' => 'home', 'action' => 'index', $school_id]);
             }
             $this->Flash->error(__('The report could not be saved. Please, try again.'));
         }
         $schools = $this->Reports->Schools->get($school_id);
-        $lops = $this->Lops->find('all', ['contain' => ['Khois']])->where(['school_id' => $schools->id]);
-//        $khois = $this->Khois->find('all')->where(['caphoc_id' => $schools->caphoc_id]);
         $this->set(compact('report', 'schools'));
-        $this->set(compact('lops'));
         $this->set('_serialize', ['report']);
     }
 
