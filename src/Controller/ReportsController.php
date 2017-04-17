@@ -86,6 +86,31 @@ class ReportsController extends AppController {
                         ['controller' => 'reports', 'action' => 'view', $report_id]
         );
     }
+    
+    
+    
+    
+    public function getTemplate($caphoc_id){
+        ini_set('memory_limit', '-1');
+        $this->loadModel('Caphocs');
+        $caphoc = $this->Caphocs->get($caphoc_id);
+        $url = TEMPLATE_EXCEL_ROOT . $caphoc->template_file;
+        //$file_url = 'http://www.myremoteserver.com/file.exe';
+        // Redirect output to a client’s web browser (Excel5)
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment;filename="'.$caphoc->template_file.'"');
+        header('Cache-Control: max-age=0');
+        // If you're serving to IE 9, then the following may be needed
+        header('Cache-Control: max-age=1');
+
+        // If you're serving to IE over SSL, then the following may be needed
+        header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+        header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT'); // always modified
+        header('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+        header('Pragma: public'); // HTTP/1.0
+        readfile($url); // do the double-download-dance (dirty but worky)
+        
+    }
 
     /**
      * check Validate
@@ -94,24 +119,7 @@ class ReportsController extends AppController {
         return true;
     }
 
-    /**
-     * check Validate
-     */
-    private function SaveMamNon($objPHPExcel, $report) {
-        if ($this->checkValid($objPHPExcel, $report->school->caphoc_id)) {
-            $this->loadModel("Tinhtrangsuckhoes");
-//            $this->Tinhtrangsuckhoes->begin();
-            $sheet1 = $objPHPExcel->getSheetByName("Tre-PH");
-            try {
-                $this->Tinhtrangsuckhoes->Savetinhtrangsk($sheet1, $report);
-//                $this->Tinhtrangsuckhoes->commit(); 
-            } catch (Exception $e) {
-//                $this->Tinhtrangsuckhoes->rollback();
-                die($e->getMessage());
-            }
-            $this->Flash->success(__('Đã lưu.'));
-        }
-    }
+
 
     private function saveAllSheet($objPHPExcel, $report) {
         $this->loadModel("Settingvalids");

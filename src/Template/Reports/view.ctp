@@ -15,7 +15,8 @@
     </ul>
 </nav>
 <div class="reports view large-9 medium-8 columns content">
-    <h3><?= h($report->tenbaocao) ?></h3>
+    <h3><?= h($report->tenbaocao);  ?></h3>
+    <h4 >  <?= $this->Html->link(__('Tải Mẫu báo cáo'), ['action' => 'getTemplate', $report->school->caphoc_id], ["style" => "color: blue; text-decoration: underline;"]) ?> </h4>
     <table class="vertical-table">
 <!--        <tr>
             <th scope="row"><?= __('Tên biểu mẫu') ?></th>
@@ -29,6 +30,8 @@
             <th scope="row"><?= __('Phiên bản báo cáo') ?></th>
             <td><?= h($report->phienbanbaocao) ?></td>
         </tr>
+        
+        
     </table>
 
     <div class="related">
