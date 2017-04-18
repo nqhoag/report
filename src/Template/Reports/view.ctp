@@ -18,10 +18,7 @@
     <h3><?= h($report->tenbaocao);  ?></h3>
     <h4 >  <?= $this->Html->link(__('Tải Mẫu báo cáo'), ['action' => 'getTemplate', $report->school->caphoc_id], ["style" => "color: blue; text-decoration: underline;"]) ?> </h4>
     <table class="vertical-table">
-<!--        <tr>
-            <th scope="row"><?= __('Tên biểu mẫu') ?></th>
-            <td><?= h($report->tenbaocao) ?></td>
-        </tr>-->
+
         <tr>
             <th scope="row"><?= __('Tên trường báo cáo') ?></th>
             <td><?= $report->has('school') ? $this->Html->link($report->school->ten, ['controller' => 'Schools', 'action' => 'view', $report->school->id]) : '' ?></td>

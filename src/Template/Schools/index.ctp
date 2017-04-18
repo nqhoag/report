@@ -41,9 +41,7 @@
                 <td><?= h($school->email) ?></td>
                 <td><?= h($school->sodienthoai) ?></td>
                 <td class="actions">
-                    <?= $this->Html->link(__('View'), ['action' => 'view', $school->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $school->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $school->id], ['confirm' => __('Are you sure you want to delete # {0}?', $school->id)]) ?>
+                    <?= $this->Html->link(__('View'), ['controller' => 'Home', 'action' => 'index', $school->id]) ?>
                 </td>
             </tr>
             <?php endforeach; ?>

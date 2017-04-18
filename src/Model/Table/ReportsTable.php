@@ -53,7 +53,9 @@ class ReportsTable extends Table
         $validator
             ->integer('id')
             ->allowEmpty('id', 'create');
-
+        $validator
+            ->integer('namhoc')
+            ->notEmpty('namhoc');
         $validator
             ->requirePresence('phienbanbaocao', 'create')
             ->notEmpty('phienbanbaocao');
@@ -92,8 +94,8 @@ class ReportsTable extends Table
             $rp1 = $this->newEntity();
         }
         $rp1->school_id = $school_id;
-        $rp2->namhoc = $year;
-        $rp1->tenbaocao = "Báo cáo đầu năm $year - ". intval($year) + 1;
+        $rp1->namhoc = $year;
+        $rp1->tenbaocao = "Báo cáo đầu năm ". $year ." - ". (intval($year) + 1);
         $rp1->phienbanbaocao = $mabaocao . "001";
         $this->save($rp1);
         
@@ -103,7 +105,7 @@ class ReportsTable extends Table
         }
         $rp2->school_id = $school_id;
         $rp2->namhoc = $year;
-        $rp2->tenbaocao = "Báo cáo cuối năm $year - ". intval($year) + 1;
+        $rp2->tenbaocao = "Báo cáo cuối năm $year - ". (intval($year) + 1);
         $rp2->phienbanbaocao = $mabaocao . "002";
         $this->save($rp2);
         

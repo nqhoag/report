@@ -88,8 +88,6 @@ class ReportsController extends AppController {
     }
     
     
-    
-    
     public function getTemplate($caphoc_id){
         ini_set('memory_limit', '-1');
         $this->loadModel('Caphocs');
@@ -111,14 +109,6 @@ class ReportsController extends AppController {
         readfile($url); // do the double-download-dance (dirty but worky)
         
     }
-
-    /**
-     * check Validate
-     */
-    private function checkValid($objPHPExcel, $school_id = 1) {
-        return true;
-    }
-
 
 
     private function saveAllSheet($objPHPExcel, $report) {
@@ -152,6 +142,7 @@ class ReportsController extends AppController {
         }
     }
 
+    
     private function validateAllSheet($objPHPExcel, $caphoc_id) {
         $this->loadModel("Settingvalids");
         $valid_return = true;
