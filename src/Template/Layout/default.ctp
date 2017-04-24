@@ -1,4 +1,5 @@
 <?php
+
 /**
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
@@ -15,8 +16,9 @@
 
 $cakeDescription = 'SỞ GIÁO DỤC VÀ ĐÀO TẠO QUẢNG NGÃI';
 ?>
-    <!DOCTYPE html>
-    <html>
+
+<!DOCTYPE html>
+<html>
 
     <head>
         <?= $this->Html->charset() ?>
@@ -64,6 +66,7 @@ $cakeDescription = 'SỞ GIÁO DỤC VÀ ĐÀO TẠO QUẢNG NGÃI';
                         </li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
+
                         <li>
                             <?=empty($_SESSION['Auth']['User']['username']) 
               ? $this->Html->link(__('Login'), ['controller' => 'Users', 'action' => 'login']) 

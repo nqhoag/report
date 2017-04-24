@@ -68,11 +68,8 @@ class ReportsController extends AppController {
                         if($this->validateAllSheet($objPHPExcel, $report->school->caphoc_id)){
                             $this->saveAllSheet($objPHPExcel, $report);
                         }
-//                      $setting = $this->Settingvalids->getSetting($report->school->caphoc_id);
-//                        var_dump($setting);
-                        exit;
-
-                        $this->SaveMamNon($objPHPExcel, $report);
+                        $report->da_nhap_bao_cao = "0";
+                        $this->Reports->save($report);
                     } else {
                         $this->Flash->error(__('Phải nhập file EXCEL.'));
                     }
@@ -140,6 +137,8 @@ class ReportsController extends AppController {
             }
             $i++;
         }
+        
+        
     }
 
     
@@ -256,22 +255,22 @@ class ReportsController extends AppController {
     }
 
     /**
-     * Delete method
+     * 
      *
-     * @param string|null $id Report id.
-     * @return \Cake\Network\Response|null Redirects to index.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     * 
      */
-    public function delete($id = null) {
-        $this->request->allowMethod(['post', 'delete']);
-        $report = $this->Reports->get($id);
-        if ($this->Reports->delete($report)) {
-            $this->Flash->success(__('The report has been deleted.'));
-        } else {
-            $this->Flash->error(__('The report could not be deleted. Please, try again.'));
+    public function truongchuanhap()
+    {
+        $dau_nam = isset($this->request->query['dau_nam']) ? $this->request->query['dau_nam'] : null;
+        $year = isset($this->request->query['year']) ? $this->request->query['year'] : null;
+        if(is_null($dau_nam || is_null($year))){
+            echo 'giá trị không đúng. Xin thử lại sau.';
+            exit;
         }
 
-        return $this->redirect(['action' => 'index']);
+        $reports = $this->Reports->find('all', ['limit' => 200, 'contain' => ['Schools']])->where(['Reports.namhoc' => $year, 'Reports.dau_nam' => $dau_nam, 'Reports.da_nhap_bao_cao' => '1']);
+
+        $this->set('reports', $reports->toArray());
     }
 
 }

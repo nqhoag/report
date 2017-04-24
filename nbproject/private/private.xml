@@ -22,6 +22,7 @@
         <group>
             <file>file:/C:/xampp/htdocs/report/src/Model/Table/SchoolsTable.php</file>
             <file>file:/C:/xampp/htdocs/report/src/Template/Lops/add.ctp</file>
+            <file>file:/C:/xampp/htdocs/report/src/Controller/AppController.php</file>
             <file>file:/C:/xampp/htdocs/report/src/Controller/ReportsController.php</file>
             <file>file:/C:/xampp/htdocs/report/src/Model/Table/TinhtrangsuckhoesTable.php</file>
             <file>file:/C:/xampp/htdocs/report/src/Model/Table/SettingvalidsTable.php</file>

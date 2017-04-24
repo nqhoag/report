@@ -225,7 +225,7 @@ class DemoController extends AppController {
                 FROM `tinhtrangsuckhoes` INNER JOIN `schools` ON `schools`.`id` = `tinhtrangsuckhoes`.`school_id` 
                 INNER JOIN `cosovatchats` ON `cosovatchats`.`report_id` = `tinhtrangsuckhoes`.`report_id` AND `cosovatchats`.`khoi_id` = `tinhtrangsuckhoes`.`khoi_id`
                 INNER JOIN `reports` ON `tinhtrangsuckhoes`.`report_id` = `reports`.`id`
-                WHERE `schools`.`caphoc_id` in ('1', '2', '3') AND `reports`.`namhoc` = '$year'
+                WHERE `schools`.`caphoc_id` in ('1', '2', '3') AND `reports`.`namhoc` = '2017' AND `reports`.`dau_nam` = '0' 
                 GROUP BY  `schools`.`loaitruong_id` , `tinhtrangsuckhoes`.`khoi_id`";
         return $conn->query($sql)->fetchAll('assoc');
     }
@@ -237,14 +237,14 @@ class DemoController extends AppController {
 //                         'id  = "1"'
 //          ));
 
-        $inputFileName = TEMPLATE_EXCEL_ROOT . 'export.xls';
+        $inputFileName = TEMPLATE_EXCEL_ROOT . 'B3.xlsx';
         $objPHPExcel = \PHPExcel_IOFactory::load($inputFileName);
         $objPHPExcel->getProperties()
                 ->setCreator("SGDDT Quang Nam")
                 ->setLastModifiedBy("SGDDT Quang Nam");
         // Add some data
 
-        $objPHPExcel->setActiveSheetIndex(3);
+        $objPHPExcel->setActiveSheetIndex(0);
 
         $sheet3 = $this->getDataSheet3();
 
