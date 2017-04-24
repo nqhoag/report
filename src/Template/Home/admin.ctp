@@ -19,7 +19,8 @@
                 <td><?= $report["dau_nam"] == 1 ?   h("Báo cáo cuối năm ". $report['namhoc'] ." - " . ($report['namhoc'] + 1)) : h("Báo cáo đầu năm ".$report['namhoc']." - " . ($report['namhoc'] + 1)) ?></td>
                 <td>
                     <?= $report["da_nhap"] == 0 ? $this->Html->link(__('Tải báo cáo'), ['controller' => 'Home', 'action' => 'export', "year" => $report["namhoc"],
-                      "dau_nam" => $report["dau_nam"]]): "Báo cáo chưa hoàn thành" ?>
+                      "dau_nam" => $report["dau_nam"]]):  $this->Html->link(__('Báo cáo chưa hoàn thành'), ['controller' => 'Reports', 'action' => 'truongchuanhap', "year" => $report["namhoc"],
+                      "dau_nam" => $report["dau_nam"]])?>
                 </td>
             </tr>
             <?php endforeach; ?>

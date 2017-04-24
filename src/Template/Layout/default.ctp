@@ -1,4 +1,5 @@
 <?php
+
 /**
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
@@ -17,13 +18,13 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
 ?>
 <!DOCTYPE html>
 <html>
-<head>
+    <head>
     <?= $this->Html->charset() ?>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>
         <?= $cakeDescription ?>:
         <?= $this->fetch('title') ?>
-    </title>
+        </title>
     <?= $this->Html->meta('icon') ?>
 
     <?= $this->Html->css('base.css') ?>
@@ -33,30 +34,38 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
     <?= $this->fetch('script') ?>
-</head>
-<body>
-    <nav class="top-bar expanded" data-topbar role="navigation">
-        <ul class="title-area large-3 medium-4 columns">
-            <li class="name">
-                <h1><a href=""><?= $this->fetch('title') ?></a></h1>
-            </li>
-        </ul>
-        <div class="top-bar-section">
-            <ul class="right">
-                <li>
-                <?=
-                empty($_SESSION['Auth']['User']['username']) ? $this->Html->link(__('Login'), ['controller' => 'Users', 'action' => 'login']) : 
-                    "<p>" . $_SESSION['Auth']['User']['username'] . "</p>" .    $this->Html->link(__('Logout'), ['controller' => 'Users', 'action' => 'logout']);
-                ?>
+    </head>
+    <body>
+        <nav class="top-bar expanded" data-topbar role="navigation">
+            <ul class="title-area large-3 medium-4 columns">
+                <li class="name">
+                    <h1><a href=""><?= $this->fetch('title') ?></a></h1>
                 </li>
             </ul>
-        </div>
-    </nav>
+            <div class="top-bar-section">
+                <ul class="right">
+                    <?php if(isset($_SESSION['Auth']['User'])) {?>
+                    <li>
+                    <?=
+                     $_SESSION['Auth']['User']['role'] == 'school' ? $this->Html->link(__('Trang chủ'), ['controller' => 'Home', 'action' => 'index', $_SESSION['Auth']['User']["school_id"]]) : 
+                           $this->Html->link(__('Tải báo cáo'), ['controller' => 'Home', 'action' => 'admin']);
+                    ?>
+                    </li>
+                    <?php } ?>
+                    <li>
+                    <?=
+                    empty($_SESSION['Auth']['User']['username']) ? $this->Html->link(__('Login'), ['controller' => 'Users', 'action' => 'login']) : 
+                          $this->Html->link(__('Logout'), ['controller' => 'Users', 'action' => 'logout']);
+                    ?>
+                    </li>
+                </ul>
+            </div>
+        </nav>
     <?= $this->Flash->render() ?>
-    <div class="container clearfix">
+        <div class="container clearfix">
         <?= $this->fetch('content') ?>
-    </div>
-    <footer>
-    </footer>
-</body>
+        </div>
+        <footer>
+        </footer>
+    </body>
 </html>

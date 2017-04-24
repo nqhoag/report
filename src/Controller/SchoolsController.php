@@ -69,6 +69,8 @@ class SchoolsController extends AppController
         $this->set(compact('school', 'loaitruongs'));
         $this->set('_serialize', ['school']);
     }
+    
+    
 
     /**
      * Edit method

@@ -32,12 +32,9 @@ class HomeController extends AppController {
     public function export() {
         $dau_nam = isset($this->request->query['dau_nam']) ? $this->request->query['dau_nam'] : null;
         $year = isset($this->request->query['year']) ? $this->request->query['year'] : null;
-        $this->autoRender = false;
-//            $reports = $this->Report->find('first',
-//                    array('conditions'=>
-//                         'id  = "1"'
-//          ));
-
+        if(empty($dau_nam || empty($year))){
+            echo 'giá trị không đúng. Không thể tải xuống.';
+        }
         $inputFileName = TEMPLATE_EXCEL_ROOT . 'B3.xlsx';
         $objPHPExcel = \PHPExcel_IOFactory::load($inputFileName);
         $objPHPExcel->getProperties()
