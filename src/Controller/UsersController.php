@@ -50,8 +50,8 @@ class UsersController extends AppController {
                     ]);
                 } else {
                     return $this->redirect([
-                                'controller' => 'Schools',
-                                'action' => 'index',
+                                'controller' => 'Home',
+                                'action' => 'admin',
                     ]);
                 }
             }
