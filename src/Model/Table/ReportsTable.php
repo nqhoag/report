@@ -96,6 +96,8 @@ class ReportsTable extends Table
         $rp1->school_id = $school_id;
         $rp1->namhoc = $year;
         $rp1->tenbaocao = "Báo cáo đầu năm ". $year ." - ". (intval($year) + 1);
+        $rp1->dau_nam = 0;
+        $rp1->da_nhap_bao_cao = 1;
         $rp1->phienbanbaocao = $mabaocao . "001";
         $this->save($rp1);
         
@@ -106,6 +108,8 @@ class ReportsTable extends Table
         $rp2->school_id = $school_id;
         $rp2->namhoc = $year;
         $rp2->tenbaocao = "Báo cáo cuối năm $year - ". (intval($year) + 1);
+        $rp2->dau_nam = 1;
+        $rp2->da_nhap_bao_cao = 1;
         $rp2->phienbanbaocao = $mabaocao . "002";
         $this->save($rp2);
         

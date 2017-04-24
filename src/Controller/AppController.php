@@ -65,7 +65,7 @@ class AppController extends Controller {
     public function isAuthorized($user) {
         // Admin can access every action
         if (isset($user['role']) && $user['role'] === 'supperadmin') {
-            return false;
+            return true;
         }
 
         // Default deny
