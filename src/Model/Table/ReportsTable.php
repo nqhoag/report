@@ -89,6 +89,7 @@ class ReportsTable extends Table
         if(empty($year))
             return false;
         $mabaocao = $year . "_" . $school_id . "_";
+        $version = date("YmdHis");
         $rp1 = $this->find('all')->where(['school_id' => $school_id, 'phienbanbaocao' => $mabaocao . "001" ])->first();
         if(empty($rp1)){
             $rp1 = $this->newEntity();
@@ -98,7 +99,7 @@ class ReportsTable extends Table
         $rp1->tenbaocao = "Báo cáo đầu năm ". $year ." - ". (intval($year) + 1);
         $rp1->dau_nam = 0;
         $rp1->da_nhap_bao_cao = 1;
-        $rp1->phienbanbaocao = $mabaocao . "001";
+        $rp1->phienbanbaocao = $mabaocao . "001_".$version;
         $this->save($rp1);
         
         $rp2 = $this->find('all')->where(['school_id' => $school_id, 'phienbanbaocao' => $mabaocao . "002" ])->first();
@@ -110,7 +111,7 @@ class ReportsTable extends Table
         $rp2->tenbaocao = "Báo cáo cuối năm $year - ". (intval($year) + 1);
         $rp2->dau_nam = 1;
         $rp2->da_nhap_bao_cao = 1;
-        $rp2->phienbanbaocao = $mabaocao . "002";
+        $rp2->phienbanbaocao = $mabaocao . "002_".$version;
         $this->save($rp2);
         
         return true;

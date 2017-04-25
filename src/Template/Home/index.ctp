@@ -90,14 +90,14 @@
                             <th scope="col">
                                 <?= __('Năm học báo cáo') ?>
                             </th>
-                            <!--<th scope="col">
+                            <th scope="col">
                                 Tình trạng
-                            </th>-->
+                            </th>
                             <th scope="col" class="actions">
                                 <?= __('') ?>
                             </th>
                         </tr>
-                        <?php foreach ($school->reports as $reports): ?>
+                        <?php foreach ($school->reports as $reports):  ?>
                         <tr>
                             <td>
                                 <?= h($reports->tenbaocao) ?>
@@ -105,11 +105,12 @@
                             <td>
                                 <?= h($reports->namhoc) ?>
                             </td>
-                            <!--<td>
-                                <?= h($reports->da_nhap_cao_bao) ?>
-                            </td>-->
                             <td>
-                                <?= $this->Html->link(__('Nhập báo cáo'), ['controller' => 'Reports', 'action' => 'view', $reports->id]) ?>
+                                <?= h(( $reports->da_nhap_bao_cao !== 1 )? "Đã nhập" : "Chưa nhập") ?>
+                            </td>
+                            <td>
+                                <?= $this->Html->link(__('Nhập báo cáo'), ['controller' => 'Reports', 'action' => 'view', $reports->id]) ?>  
+                                <?=  $reports->da_nhap_bao_cao !== 1 ? "| ". $this->Html->link(__('Tải báo cáo đã nhập'), ['controller' => 'Reports', 'action' => 'getLastImport', $reports->id] ) : "" ?>
                             </td>
                         </tr>
                         <?php endforeach; ?>

@@ -45,11 +45,21 @@ class ReportsController extends AppController {
             }
             if ($this->request->data['spreadsheet']['tmp_name']) {
                 $inputFile = $this->request->data['spreadsheet']['tmp_name'];
-                $uploadPath = 'uploads' . DS . $this->request->data['spreadsheet']['name'];
 
+                $report = $this->Reports->get($report_id, [
+                    'contain' => ['Schools']
+                ]);
+                $filepath = 'uploads' . DS . $report->namhoc;
+                //Check if the directory already exists.
+                if (!is_dir($filepath)) {
+                    mkdir($filepath, 0777, true);
+                }
+
+                $mabaocao = $report->namhoc . "_" . $report->school_id . "_" . ($report->dau_nam == 1 ? "002" : "001");
+                $extension = strtolower(pathinfo($this->request->data['spreadsheet']["name"], PATHINFO_EXTENSION));
+                $uploadPath = $filepath . DS . $mabaocao . "." . $extension;
                 if (move_uploaded_file($inputFile, $uploadPath)) {
-                    $extension = strtoupper(pathinfo($uploadPath, PATHINFO_EXTENSION));
-                    if ($extension == 'XLSX' || $extension == 'XLS') {
+                    if ($extension == 'xlsx' || $extension == 'xls') {
                         //Read spreadsheeet workbook
                         try {
                             $inputFileType = \PHPExcel_IOFactory::identify($uploadPath);
@@ -60,15 +70,15 @@ class ReportsController extends AppController {
                         }
                         //Get worksheet dimensions
 
-                        
 
-                        $report = $this->Reports->get($report_id, [
-                            'contain' => ['Schools']
-                        ]);
-                        if($this->validateAllSheet($objPHPExcel, $report->school->caphoc_id)){
+
+
+                        if ($this->validateAllSheet($objPHPExcel, $report->school->caphoc_id)) {
                             $this->saveAllSheet($objPHPExcel, $report);
                         }
                         $report->da_nhap_bao_cao = "0";
+                        $report->file_input = $uploadPath;
+                        $report->phienbanbaocao = $mabaocao . "_" . date("mdHi");
                         $this->Reports->save($report);
                     } else {
                         $this->Flash->error(__('Phải nhập file EXCEL.'));
@@ -83,101 +93,112 @@ class ReportsController extends AppController {
                         ['controller' => 'reports', 'action' => 'view', $report_id]
         );
     }
-    
-    
-    public function getTemplate($caphoc_id){
+
+    public function getTemplate($caphoc_id) {
         ini_set('memory_limit', '-1');
         $this->loadModel('Caphocs');
         $caphoc = $this->Caphocs->get($caphoc_id);
         $url = TEMPLATE_EXCEL_ROOT . $caphoc->template_file;
         //$file_url = 'http://www.myremoteserver.com/file.exe';
         // Redirect output to a client’s web browser (Excel5)
+        header('Cache-control: private');
         header('Content-Type: application/vnd.ms-excel');
-        header('Content-Disposition: attachment;filename="'.$caphoc->template_file.'"');
+        header('Content-Length: ' . filesize($url));
+        header('Content-Disposition: attachment;filename="' . $caphoc->template_file . '"');
         header('Cache-Control: max-age=0');
         // If you're serving to IE 9, then the following may be needed
         header('Cache-Control: max-age=1');
-
         // If you're serving to IE over SSL, then the following may be needed
         header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
         header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT'); // always modified
         header('Cache-Control: cache, must-revalidate'); // HTTP/1.1
         header('Pragma: public'); // HTTP/1.0
         readfile($url); // do the double-download-dance (dirty but worky)
-        
     }
 
+    public function getLastImport($report_id) {
+        ini_set('memory_limit', '-1');
+        $report = $this->Reports->get($report_id);
+        $url = $report->file_input;
+        $extension = strtolower(pathinfo($url, PATHINFO_EXTENSION));
+        //$file_url = 'http://www.myremoteserver.com/file.exe';
+        // Redirect output to a client’s web browser (Excel5)
+        header('Cache-control: private');
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Length: ' . filesize($url));
+        header('Content-Disposition: attachment;filename="' . $report->phienbanbaocao . "." . $extension . '"');
+        header('Cache-Control: max-age=0');
+        // If you're serving to IE 9, then the following may be needed
+        header('Cache-Control: max-age=1');
+        // If you're serving to IE over SSL, then the following may be needed
+        header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+        header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT'); // always modified
+        header('Pragma: public'); // HTTP/1.0
+        readfile($url); // do the double-download-dance (dirty but worky)
+    }
 
     private function saveAllSheet($objPHPExcel, $report) {
         $this->loadModel("Settingvalids");
         $i = 0;
         foreach ($objPHPExcel->getWorksheetIterator() as $worksheet) {
             $settings = $this->Settingvalids->getSetting($report->school->caphoc_id, $i);
-            if(!empty($settings->toArray())){
+            if (!empty($settings->toArray())) {
                 $tables = $settings->select(['mapping_table'])
-                ->distinct(['mapping_table'])->toArray();
-                foreach ($tables as $table){
+                                ->distinct(['mapping_table'])->toArray();
+                foreach ($tables as $table) {
 //                    $value = $worksheet->getCell($setting["cell"])->getValue();
 //                    $table = TableRegistry::get($setting['table_mapping']);
-                    if(!empty($table["mapping_table"])){
-                    $tableModel = \Cake\ORM\TableRegistry::get($table["mapping_table"]);
+                    if (!empty($table["mapping_table"])) {
+                        $tableModel = \Cake\ORM\TableRegistry::get($table["mapping_table"]);
 //                    var_dump($table["mapping_table"]);
-                    $index_tbls = $settings->select(['table_index'])
-                            ->distinct(['table_index'])->toArray();
-                    foreach ($index_tbls as $index){
-                        $tableModel->saveAllSheet(
-                                $this->Settingvalids->getSetting($report->school->caphoc_id, $i), 
-                                $worksheet, 
-                                $report, 
-                                $index["table_index"], 
-                                isset($index["khoi_id"]) ? $index["khoi_id"] : null);
-                    }
+                        $index_tbls = $settings->select(['table_index'])
+                                        ->distinct(['table_index'])->toArray();
+                        foreach ($index_tbls as $index) {
+                            $tableModel->saveAllSheet(
+                                    $this->Settingvalids->getSetting($report->school->caphoc_id, $i), $worksheet, $report, $index["table_index"], isset($index["khoi_id"]) ? $index["khoi_id"] : null);
+                        }
                     }
                 }
             }
             $i++;
         }
-        
-        
     }
 
-    
     private function validateAllSheet($objPHPExcel, $caphoc_id) {
         $this->loadModel("Settingvalids");
         $valid_return = true;
         $i = 0;
         foreach ($objPHPExcel->getWorksheetIterator() as $worksheet) {
             $settings = $this->Settingvalids->getSetting($caphoc_id, $i);
-            if(!empty($settings)){
-                foreach ($settings as $setting){
+            if (!empty($settings)) {
+                foreach ($settings as $setting) {
                     $value = $worksheet->getCell($setting["cell"])->getValue();
-                    $valid  = explode("|",$setting["validate"]);
+                    $valid = explode("|", $setting["validate"]);
 
-                    switch ($valid[0]){
+                    switch ($valid[0]) {
                         case "integer" :
-                            if(!is_int(intval($value))){
+                            if (!is_int(intval($value))) {
                                 $error = __("Cell {0} trong sheet '{1}' phải là 1 số tự nhiên", array($setting["cell"], $i));
                                 $valid_return = false;
-                            } else if(count($valid) > 0){
-                                foreach ($valid as $key => $v){
-                                    if($key != 0){
-                                      foreach(explode(":",$v) as $ex){
-                                          if(strtolower($ex[0])== 'max' && intval($ex[1]) < intval($value)){
-                                              $error = __("Cell {0} trong sheet '{1}' phải là nhỏ hơn {2}", array($setting["cell"], $i, $ex[1]));
-                                              $valid_return = false;
-                                          }
-                                          if(strtolower($ex[0])== 'min' && intval($ex[1]) > intval($value)){
-                                              $error = __("Cell {0} trong sheet '{1}' phải là lớn hơn {2}", array($setting["cell"], $i, $ex[1]));
-                                              $valid_return = false;
-                                          }
-                                      }
-                                            
+                            } else if (count($valid) > 0) {
+                                foreach ($valid as $key => $v) {
+                                    if ($key != 0) {
+                                        foreach (explode(":", $v) as $ex) {
+                                            if (strtolower($ex[0]) == 'max' && intval($ex[1]) < intval($value)) {
+                                                $error = __("Cell {0} trong sheet '{1}' phải là nhỏ hơn {2}", array($setting["cell"], $i, $ex[1]));
+                                                $valid_return = false;
+                                            }
+                                            if (strtolower($ex[0]) == 'min' && intval($ex[1]) > intval($value)) {
+                                                $error = __("Cell {0} trong sheet '{1}' phải là lớn hơn {2}", array($setting["cell"], $i, $ex[1]));
+                                                $valid_return = false;
+                                            }
+                                        }
                                     }
                                 }
                             }
-                            if(isset($error)){
+                            if (isset($error)) {
                                 echo $error;
-                                $this->Flash->error ($error);
+                                $this->Flash->error($error);
                             }
                             break;
                         case "string":
@@ -259,11 +280,10 @@ class ReportsController extends AppController {
      *
      * 
      */
-    public function truongchuanhap()
-    {
+    public function truongchuanhap() {
         $dau_nam = isset($this->request->query['dau_nam']) ? $this->request->query['dau_nam'] : null;
         $year = isset($this->request->query['year']) ? $this->request->query['year'] : null;
-        if(is_null($dau_nam || is_null($year))){
+        if (is_null($dau_nam || is_null($year))) {
             echo 'giá trị không đúng. Xin thử lại sau.';
             exit;
         }
