@@ -17,8 +17,8 @@
 $cakeDescription = 'SỞ GIÁO DỤC VÀ ĐÀO TẠO QUẢNG NGÃI';
 ?>
 
-<!DOCTYPE html>
-<html>
+    <!DOCTYPE html>
+    <html>
 
     <head>
         <?= $this->Html->charset() ?>
@@ -35,7 +35,7 @@ $cakeDescription = 'SỞ GIÁO DỤC VÀ ĐÀO TẠO QUẢNG NGÃI';
                                 <?= $this->fetch('meta') ?>
                                     <?= $this->fetch('css') ?>
                                         <?= $this->fetch('script') ?>
-                                            <script id="_carbonads_projs" type="text/javascript" src="//srv.carbonads.net/ads/C6AILKT.json?segment=placement:bootswatchcom&amp;callback=_carbonads_go"></script>
+                                            <!--<script id="_carbonads_projs" type="text/javascript" src="//srv.carbonads.net/ads/C6AILKT.json?segment=placement:bootswatchcom&amp;callback=_carbonads_go"></script>-->
     </head>
 
     <body>
@@ -90,25 +90,25 @@ $cakeDescription = 'SỞ GIÁO DỤC VÀ ĐÀO TẠO QUẢNG NGÃI';
                                 <li>
                                     <a href="#">
                                         <span class="sidebar-icon"></span>
-                                        <span class="sidebar-title">Trang chủ</span>
+                                        <span class="sidebar-title">Các link tắt</span>
                                     </a>
                                 </li>
-                                <li>
+                                <!--<li>
                                     <a class="accordion-toggle collapsed toggle-switch" data-toggle="collapse" href="#submenu-2">
-                                        <!--<span class="sidebar-icon"><i class="fa fa-users"></i></span>-->
+                                        <span class="sidebar-icon"><i class="fa fa-users"></i></span>
                                         <span class="sidebar-icon"></span>
                                         <span class="sidebar-title">Nhập cáo báo</span>
                                         <b class="caret"></b>
                                     </a>
                                     <ul id="submenu-2" class="panel-collapse collapse panel-switch" role="menu">
-                                        <!--<li><a href="#"><i class="fa fa-caret-right"></i>Users</a></li>-->
+                                        <li><a href="#"><i class="fa fa-caret-right"></i>Users</a></li>
                                         <li>
                                             <a href="#">
                                                 <span class="sidebar-icon"></span>
                                                 <span class="sidebar-title">Roles</span></a>
                                         </li>
                                     </ul>
-                                </li>
+                                </li>-->
                             </ul>
                         </aside>
                     </div>
