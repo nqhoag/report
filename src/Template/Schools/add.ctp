@@ -16,13 +16,14 @@
     <fieldset>
         <legend><?= __('Add School') ?></legend>
         <?php
-            echo $this->Form->control('ten', [ 'label' => 'Tên trường']);
-            echo $this->Form->control('diachi', [ 'label' => 'Địa chỉ']);
-            echo $this->Form->control('caphoc_id', [ 'label' => 'cấp học']);
-            echo $this->Form->control('loaitruong_id', [ 'label' => 'Loại trường']);
-            echo $this->Form->control('namthanhlap', [ 'label' => 'Năm thành lập']);
-            echo $this->Form->control('email', [ 'label' => 'Địa chỉ email']);
-            echo $this->Form->control('sodienthoai', [ 'label' => 'Số điện thoại']);
+            echo $this->Form->control('Schools.ten', [ 'label' => 'Tên trường']);
+            echo $this->Form->control('Users.username', [ 'label' => 'Tên đăng nhập']);
+            echo $this->Form->control('Schools.diachi', [ 'label' => 'Địa chỉ']);
+            echo $this->Form->control('Schools.caphoc_id', [ 'label' => 'cấp học']);
+            echo $this->Form->control('Schools.loaitruong_id', [ 'label' => 'Loại trường']);
+            echo $this->Form->control('Schools.namthanhlap', [ 'label' => 'Năm thành lập']);
+            echo $this->Form->control('Schools.email', [ 'label' => 'Địa chỉ email']);
+            echo $this->Form->control('Schools.sodienthoai', [ 'label' => 'Số điện thoại']);
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>
