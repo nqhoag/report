@@ -139,7 +139,9 @@ class CosovatchatsTable extends Table
             $model->kieuphong_id = KIEU_PHONG_PHONG_HOC;//$this->getKieuPhong($index);
             
             foreach ($columns as $column){
-                $model[$column["mapping_column"]] = $sheet->getCell($column["cell"])->getValue();
+                if(!empty($column["mapping_column"])){
+                    $model[$column["mapping_column"]] = $sheet->getCell($column["cell"])->getValue();
+                }
             }
             $this->save($model);
     }

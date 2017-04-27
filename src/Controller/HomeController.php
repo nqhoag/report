@@ -28,6 +28,12 @@ class HomeController extends AppController {
         $this->set(compact('lops'));
         $this->set('_serialize', ['school']);
     }
+    
+    public function admin() {
+        $conn = \Cake\Datasource\ConnectionManager::get('default');
+        $sql = "SELECT (CASE WHEN SUM(`da_nhap_bao_cao`) > 0 THEN 1 ELSE 0 END) AS 'da_nhap', `namhoc`, `dau_nam` FROM `reports` GROUP BY `namhoc`, `dau_nam`";
+        $this->set('reports', $conn->query($sql)->fetchAll('assoc'));
+    }
 
     public function export() {
         $dau_nam = isset($this->request->query['dau_nam']) ? $this->request->query['dau_nam'] : null;
@@ -43,7 +49,7 @@ class HomeController extends AppController {
                 ->setCreator("SGDDT Quang Nam")
                 ->setLastModifiedBy("SGDDT Quang Nam");
         $this->generateSheet3($objPHPExcel, $year, $dau_nam);
-
+        $this->generateSheet1($objPHPExcel, $year, $dau_nam);
         header('Content-Type: application/vnd.ms-excel');
         header('Content-Disposition: attachment;filename="export.xls"');
         header('Cache-Control: max-age=0');
@@ -138,11 +144,118 @@ class HomeController extends AppController {
             }
         }
     }
-
-    public function admin() {
+    
+    
+    /**
+     * return ['1' => ['A2' => '1', 'B2' => '2'], '2' => []];
+     */
+    private function getDataSheet1School($year, $dau_nam) {
         $conn = \Cake\Datasource\ConnectionManager::get('default');
-        $sql = "SELECT (CASE WHEN SUM(`da_nhap_bao_cao`) > 0 THEN 1 ELSE 0 END) AS 'da_nhap', `namhoc`, `dau_nam` FROM `reports` GROUP BY `namhoc`, `dau_nam`";
-        $this->set('reports', $conn->query($sql)->fetchAll('assoc'));
+        $sql = "SELECT `schools`.`caphoc_id`, `reports`.`namhoc` AS 'None', `reports`.`dau_nam` AS 'None', 'None' AS 'khoi_id',
+                COUNT(DISTINCT CASE WHEN `schools`.`loaitruong_id` = '1' THEN `schools`.`id` ELSE 0 END) AS E,
+                COUNT(DISTINCT CASE WHEN `schools`.`loaitruong_id` <> '1' THEN `schools`.`id` ELSE 0 END) AS F,
+                SUM( CASE WHEN `schools`.`loaitruong_id` = '1' THEN `hocsinhs`.`tong_so_lop` ELSE 0 END) AS H,
+                SUM( CASE WHEN `schools`.`loaitruong_id` <> '1' THEN `hocsinhs`.`tong_so_lop` ELSE 0 END) AS I,
+                SUM( CASE WHEN `schools`.`loaitruong_id` = '1' THEN `hocsinhs`.`tong_so_hs` ELSE 0 END) AS K,
+                SUM( CASE WHEN `schools`.`loaitruong_id` <> '1' THEN `hocsinhs`.`tong_so_hs` ELSE 0 END) AS L
+                FROM `reports` INNER JOIN `schools` ON `reports`.`school_id` = `schools`.`id`
+                INNER JOIN `hocsinhs` ON `reports`.`id` = `hocsinhs`.`report_id`
+                WHERE  `reports`.`namhoc` = '$year' AND `reports`.`dau_nam` = '$dau_nam' 
+                GROUP BY  `schools`.`caphoc_id`, `reports`.`namhoc`, `reports`.`dau_nam`
+                
+                UNION
+                
+                SELECT 'None' AS 'caphoc_id', `reports`.`namhoc` AS 'None', `reports`.`dau_nam` AS 'None', `tinhtrangsuckhoes`.`khoi_id`,
+                COUNT(DISTINCT CASE WHEN `schools`.`loaitruong_id` = '1' THEN `schools`.`id` ELSE 0 END) AS E,
+                COUNT(DISTINCT CASE WHEN `schools`.`loaitruong_id` <> '1' THEN `schools`.`id` ELSE 0 END) AS F,
+                SUM( CASE WHEN `schools`.`loaitruong_id` = '1' THEN `tinhtrangsuckhoes`.`tong_nhom_lop` ELSE 0 END) AS H,
+                SUM( CASE WHEN `schools`.`loaitruong_id` <> '1' THEN `tinhtrangsuckhoes`.`tong_nhom_lop` ELSE 0 END) AS I,
+                SUM( CASE WHEN `schools`.`loaitruong_id` = '1' THEN `tinhtrangsuckhoes`.`tong_so_tre` ELSE 0 END) AS K,
+                SUM( CASE WHEN `schools`.`loaitruong_id` <> '1' THEN `tinhtrangsuckhoes`.`tong_so_tre` ELSE 0 END) AS L
+                FROM `reports` INNER JOIN `schools` ON `reports`.`school_id` = `schools`.`id`
+                INNER JOIN `tinhtrangsuckhoes` ON `reports`.`id` = `tinhtrangsuckhoes`.`report_id`
+                WHERE  `reports`.`namhoc` = '$year' AND `reports`.`dau_nam` = '$dau_nam' 
+                GROUP BY  `reports`.`namhoc`, `reports`.`dau_nam`, `tinhtrangsuckhoes`.`khoi_id`";
+        return $conn->query($sql)->fetchAll('assoc');
     }
+    
+    /**
+     * return ['1' => ['A2' => '1', 'B2' => '2'], '2' => []];
+     */
+    private function getDataSheet1Increse($year, $dau_nam) {
+        $conn = \Cake\Datasource\ConnectionManager::get('default');
+        $sql = "SELECT `schools`.`caphoc_id`, `reports`.`namhoc` AS 'None', `reports`.`dau_nam` AS 'None', 'None' AS 'khoi_id',
+                COUNT(DISTINCT CASE WHEN `schools`.`loaitruong_id` = '1' THEN `schools`.`id` ELSE 0 END) AS E,
+                COUNT(DISTINCT CASE WHEN `schools`.`loaitruong_id` <> '1' THEN `schools`.`id` ELSE 0 END) AS F,
+                SUM( CASE WHEN `schools`.`loaitruong_id` = '1' THEN `hocsinhs`.`tong_so_lop` ELSE 0 END) AS H,
+                SUM( CASE WHEN `schools`.`loaitruong_id` <> '1' THEN `hocsinhs`.`tong_so_lop` ELSE 0 END) AS I,
+                SUM( CASE WHEN `schools`.`loaitruong_id` = '1' THEN `hocsinhs`.`tong_so_hs` ELSE 0 END) AS K,
+                SUM( CASE WHEN `schools`.`loaitruong_id` <> '1' THEN `hocsinhs`.`tong_so_hs` ELSE 0 END) AS L
+                FROM `reports` INNER JOIN `schools` ON `reports`.`school_id` = `schools`.`id`
+                INNER JOIN `hocsinhs` ON `reports`.`id` = `hocsinhs`.`report_id`
+                WHERE  `reports`.`namhoc` = '$year' AND `reports`.`dau_nam` = '$dau_nam' 
+                GROUP BY  `schools`.`caphoc_id`, `reports`.`namhoc`, `reports`.`dau_nam`
+                
+                UNION
+                
+                SELECT 'None' AS 'caphoc_id', `reports`.`namhoc` AS 'None', `reports`.`dau_nam` AS 'None', `tinhtrangsuckhoes`.`khoi_id`,
+                COUNT(DISTINCT CASE WHEN `schools`.`loaitruong_id` = '1' THEN `schools`.`id` ELSE 0 END) AS E,
+                COUNT(DISTINCT CASE WHEN `schools`.`loaitruong_id` <> '1' THEN `schools`.`id` ELSE 0 END) AS F,
+                SUM( CASE WHEN `schools`.`loaitruong_id` = '1' THEN `tinhtrangsuckhoes`.`tong_nhom_lop` ELSE 0 END) AS H,
+                SUM( CASE WHEN `schools`.`loaitruong_id` <> '1' THEN `tinhtrangsuckhoes`.`tong_nhom_lop` ELSE 0 END) AS I,
+                SUM( CASE WHEN `schools`.`loaitruong_id` = '1' THEN `tinhtrangsuckhoes`.`tong_so_tre` ELSE 0 END) AS K,
+                SUM( CASE WHEN `schools`.`loaitruong_id` <> '1' THEN `tinhtrangsuckhoes`.`tong_so_tre` ELSE 0 END) AS L
+                FROM `reports` INNER JOIN `schools` ON `reports`.`school_id` = `schools`.`id`
+                INNER JOIN `tinhtrangsuckhoes` ON `reports`.`id` = `tinhtrangsuckhoes`.`report_id`
+                WHERE  `reports`.`namhoc` = '$year' AND `reports`.`dau_nam` = '$dau_nam' 
+                GROUP BY  `reports`.`namhoc`, `reports`.`dau_nam`, `tinhtrangsuckhoes`.`khoi_id`";
+        return $conn->query($sql)->fetchAll('assoc');
+    }
+
+    private function generateSheet1(&$objPHPExcel, $year, $dau_nam) {
+        // Add some data
+        $objPHPExcel->setActiveSheetIndex(1);
+
+        $sheet1 = $this->getDataSheet1($year, $dau_nam);
+
+        foreach ($sheet1 as $columns) {
+            $row = null;
+            if ($columns["khoi_id"] == 'None') {
+                switch ($columns["caphoc_id"]) {
+                    case '2':
+                        $row = '14';
+                        break;
+                    case '5':
+                        $row = '16';
+                        break;
+                    case '6':
+                        $row = '18';
+                        break;
+                    default :
+                        break;
+                }
+            } else {
+                switch ($columns["khoi_id"]) {
+                    case '8':
+                        $row = '10';
+                        break;
+                    case '7':
+                        $row = '12';
+                        break;
+                    default :
+                        break;
+                }
+            }
+            
+            if (!empty($row)) {
+                foreach ($columns as $column => $value) {
+                    if (!($column == 'caphoc_id' || $column == 'khoi_id' || $column == 'None'))
+                        $objPHPExcel->getActiveSheet()->setCellValue($column . $row, $value);
+                }
+            }
+        }
+    }
+
+    
 
 }

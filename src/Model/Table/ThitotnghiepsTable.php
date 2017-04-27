@@ -93,4 +93,23 @@ class ThitotnghiepsTable extends Table
 
         return $rules;
     }
+    
+    /**
+     * lưu vào db
+     */
+    public function saveAllSheet($settings, $sheet, $report, $index, $khoi_id = null) {
+            $columns = $settings->where(['table_index' => $index])->toArray();
+            $model = $this->find()->where(["report_id" => $report->id, "nam" => $report->namhoc])->first();
+            if (!$model) {
+                $model = $this->newEntity();
+            }
+            $model->report_id = $report->id;
+            $model->nam = $report->namhoc;
+            foreach ($columns as $column){
+                if(!empty($column["mapping_column"])){
+                    $model[$column["mapping_column"]] = $sheet->getCell($column["cell"])->getValue();
+                }
+            }
+            $this->save($model);
+    }
 }

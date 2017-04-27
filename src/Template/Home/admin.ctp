@@ -5,7 +5,9 @@
 ?>
 
 <div class="schools view large-12 medium-12 columns content">
-    
+    <div class="col-xs-12">
+        <?= $this->Html->link(__('Tạo báo cáo mới'), ['controller' => 'reports', 'action' => 'add'], ['class' => 'btn btn-primary']) ?>
+    </div>
     <div class="related">
         <h4><?= __('Các báo cáo') ?></h4>
         <?php  if (!empty($reports)): ?>

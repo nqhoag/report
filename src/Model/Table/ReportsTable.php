@@ -84,36 +84,37 @@ class ReportsTable extends Table
      * @param RulesChecker $rules
      * @return RulesChecker
      */
-    public function generateReport($school_id, $year)
+    public function generateReport($schools, $year)
     {
         if(empty($year))
             return false;
-        $mabaocao = $year . "_" . $school_id . "_";
-        $version = date("YmdHis");
-        $rp1 = $this->find('all')->where(['school_id' => $school_id, 'phienbanbaocao' => $mabaocao . "001" ])->first();
-        if(empty($rp1)){
-            $rp1 = $this->newEntity();
+        foreach ($schools as $school) {
+            $mabaocao = $year . "_" . $school->id . "_";
+            $version = date("mdHi");
+            $rp1 = $this->find('all')->where(['school_id' => $school->id, 'dau_nam' => "0", "namhoc" => $year ])->first();
+            if(empty($rp1)){
+                $rp1 = $this->newEntity();
+                $rp1->da_nhap_bao_cao = 1;
+                $rp1->school_id = $school->id;
+                $rp1->namhoc = $year;
+                $rp1->tenbaocao = "Báo cáo đầu năm ". $year ." - ". (intval($year) + 1);
+                $rp1->dau_nam = 0;
+            } 
+            $rp1->phienbanbaocao = $mabaocao . "001_".$version;
+            $this->save($rp1);
+
+            $rp2 = $this->find('all')->where(['school_id' => $school->id, 'dau_nam' => "1", "namhoc" => $year ])->first();
+            if(empty($rp2)){
+                $rp2 = $this->newEntity();
+                $rp2->da_nhap_bao_cao = 1;
+                $rp2->school_id = $school->id;
+                $rp2->namhoc = $year;
+                $rp2->tenbaocao = "Báo cáo cuối năm $year - ". (intval($year) + 1);
+                $rp2->dau_nam = 1;
+            }
+            $rp2->phienbanbaocao = $mabaocao . "002_".$version;
+            $this->save($rp2);
         }
-        $rp1->school_id = $school_id;
-        $rp1->namhoc = $year;
-        $rp1->tenbaocao = "Báo cáo đầu năm ". $year ." - ". (intval($year) + 1);
-        $rp1->dau_nam = 0;
-        $rp1->da_nhap_bao_cao = 1;
-        $rp1->phienbanbaocao = $mabaocao . "001_".$version;
-        $this->save($rp1);
-        
-        $rp2 = $this->find('all')->where(['school_id' => $school_id, 'phienbanbaocao' => $mabaocao . "002" ])->first();
-        if(empty($rp2)){
-            $rp2 = $this->newEntity();
-        }
-        $rp2->school_id = $school_id;
-        $rp2->namhoc = $year;
-        $rp2->tenbaocao = "Báo cáo cuối năm $year - ". (intval($year) + 1);
-        $rp2->dau_nam = 1;
-        $rp2->da_nhap_bao_cao = 1;
-        $rp2->phienbanbaocao = $mabaocao . "002_".$version;
-        $this->save($rp2);
-        
         return true;
         
     }

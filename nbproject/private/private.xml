@@ -19,6 +19,7 @@
             <file>file:/C:/xampp/htdocs/report/src/Template/Home/index.ctp</file>
         </group>
         <group name="Group 20170208-04:50:04">
+            <file>file:/Applications/XAMPP/xamppfiles/htdocs/report/src/Controller/HomeController.php</file>
             <file>file:/Applications/XAMPP/xamppfiles/htdocs/report/src/Controller/DemoController.php</file>
             <file>file:/Applications/XAMPP/xamppfiles/htdocs/report/src/Template/Users/login.ctp</file>
             <file>file:/Applications/XAMPP/xamppfiles/htdocs/report/src/Model/Table/SchoolsTable.php</file>
@@ -38,6 +39,7 @@
             <file>file:/Applications/XAMPP/xamppfiles/htdocs/report/src/Model/Table/CosovatchatsTable.php</file>
             <file>file:/Applications/XAMPP/xamppfiles/htdocs/report/src/Controller/SettingvalidsController.php</file>
             <file>file:/Applications/XAMPP/xamppfiles/htdocs/report/src/Template/Layout/default.ctp</file>
+            <file>file:/Applications/XAMPP/xamppfiles/htdocs/report/src/Template/Schools/add.ctp</file>
             <file>file:/Applications/XAMPP/xamppfiles/htdocs/report/src/Template/Reports/index.ctp</file>
         </group>
     </open-files>
